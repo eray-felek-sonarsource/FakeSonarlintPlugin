@@ -8,7 +8,27 @@
 
     <resource-bundle>messages.MyBundle</resource-bundle>
 
+    <actions>
+        <action
+                id="com.example.myframeworksupport.MyAction"
+                class="com.github.erayfeleksonarsource.fakesonarlintplugin.services.NotificationService"
+                text="Do Action Hello World"
+                description="Do something with the code"
+                icon="AllIcons.Actions.GC">
+            <add-to-group
+                    group-id="ToolsMenu" anchor="first"/>
+            <!-- action children elements -->
+        </action>
+    </actions>
+
     <extensions defaultExtensionNs="com.intellij">
+        <notificationGroup id="Custom Notification Group"
+                           displayType="BALLOON"/>
+    </extensions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <notificationGroup id="MainToolBar"
+                           displayType="BALLOON"/>
         <toolWindow factoryClass="com.github.erayfeleksonarsource.fakesonarlintplugin.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
     </extensions>
 
