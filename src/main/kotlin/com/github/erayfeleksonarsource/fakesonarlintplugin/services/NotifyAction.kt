@@ -6,8 +6,8 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import org.slf4j.LoggerFactory
 
-class NotificationService : AnAction() {
-    val logger = LoggerFactory.getLogger(NotificationService::class.java)
+class NotifyAction : AnAction() {
+    val logger = LoggerFactory.getLogger(NotifyAction::class.java)
 
     override fun actionPerformed(e: AnActionEvent) {
         val notification = Notification("Custom Notification Group", "Hello world", NotificationType.INFORMATION)

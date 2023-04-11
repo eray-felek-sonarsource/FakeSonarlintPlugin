@@ -1,6 +1,6 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.erayfeleksonarsource.fakesonarlintplugin-updated</id>
+    <id>com.github.erayfeleksonarsource.fakesonarlintplugin</id>
     <name>FakeSonarlintPlugin</name>
     <vendor>eray-felek-sonarsource</vendor>
 
@@ -11,7 +11,7 @@
     <actions>
         <action
                 id="com.example.myframeworksupport.MyAction"
-                class="com.github.erayfeleksonarsource.fakesonarlintplugin.services.NotificationService"
+                class="com.github.erayfeleksonarsource.fakesonarlintplugin.services.NotifyAction"
                 text="Do Action Hello World"
                 description="Do something with the code"
                 icon="AllIcons.Actions.GC">
@@ -24,12 +24,6 @@
     <extensions defaultExtensionNs="com.intellij">
         <notificationGroup id="Custom Notification Group"
                            displayType="BALLOON"/>
-    </extensions>
-
-    <extensions defaultExtensionNs="com.intellij">
-        <notificationGroup id="MainToolBar"
-                           displayType="BALLOON"/>
-        <toolWindow factoryClass="com.github.erayfeleksonarsource.fakesonarlintplugin.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
     </extensions>
 
     <applicationListeners>
