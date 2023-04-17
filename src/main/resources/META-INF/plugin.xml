@@ -10,7 +10,13 @@
     <extensions defaultExtensionNs="com.intellij">
         <annotator
                 language="JAVA"
-                implementationClass="com.github.erayfeleksonarsource.fakesonarlintplugin.services.SimpleAnnotator"/>
+                implementationClass="com.github.erayfeleksonarsource.fakesonarlintplugin.services.HighlightAnnotator"/>
+    </extensions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <externalAnnotator
+                language="JAVA"
+                implementationClass="com.github.erayfeleksonarsource.fakesonarlintplugin.services.HighlightExternalAnnotator"/>
     </extensions>
 
     <resource-bundle>messages.MyBundle</resource-bundle>

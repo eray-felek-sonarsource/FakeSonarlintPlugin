@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull
 import java.awt.Font
 
 
-class SimpleAnnotator : Annotator {
+class HighlightAnnotator : Annotator {
     override fun annotate(@NotNull element: PsiElement, @NotNull holder: AnnotationHolder) {
         val elementType = element.elementType;
         val value = element.text;
@@ -29,7 +29,7 @@ class SimpleAnnotator : Annotator {
         val indexes = fetchSubStringIndexes(element.text.lowercase())
 
         indexes.forEach { i ->
-            val prefixRange = TextRange.from(element.textRange.startOffset + i, MATCHING_STRING.length)
+            val prefixRange = TextRange.from(element.textRange.startOffset + i, HIGHLIGHT_TEXT.length)
             highlight(holder, prefixRange)
         }
 
@@ -40,7 +40,7 @@ class SimpleAnnotator : Annotator {
             return true
         }
 
-        if (!value.toString().lowercase().contains(MATCHING_STRING)) {
+        if (!value.toString().lowercase().contains(HIGHLIGHT_TEXT)) {
             return true
         }
         return false
@@ -49,13 +49,13 @@ class SimpleAnnotator : Annotator {
     private fun fetchSubStringIndexes(originalString: String): MutableList<Int> {
         val indexes: MutableList<Int> = ArrayList()
 
-        var index = originalString.indexOf(MATCHING_STRING)
-        val subStringLength = MATCHING_STRING.length
+        var index = originalString.indexOf(HIGHLIGHT_TEXT)
+        val subStringLength = HIGHLIGHT_TEXT.length
 
         indexes.add(index)
 
         while (index >= 0) {
-            index = originalString.indexOf(MATCHING_STRING, index + subStringLength)
+            index = originalString.indexOf(HIGHLIGHT_TEXT, index + subStringLength)
             if (index >= 0) {
                 indexes.add(index)
             }
@@ -76,6 +76,6 @@ class SimpleAnnotator : Annotator {
     }
 
     companion object {
-        const val MATCHING_STRING = "sonar"
+        const val HIGHLIGHT_TEXT = "sonar"
     }
 }
