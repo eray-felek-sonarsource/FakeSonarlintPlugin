@@ -21,10 +21,12 @@ class HighlightExternalAnnotator : ExternalAnnotator<String, List<TextRange>>() 
     }
 
     override fun doAnnotate(collectedInfo: String?): List<TextRange> {
+        if(collectedInfo.isNullOrEmpty()) return emptyList()
+
         var startIndex = 0
         val textRanges = mutableListOf<TextRange>()
 
-        var index = getIndex(collectedInfo, startIndex)!!
+        var index = getIndex(collectedInfo, startIndex)
 
         while (index != -1) {
             val endIndex = index.plus(HIGHLIGHT_TEXT.length)
@@ -32,22 +34,22 @@ class HighlightExternalAnnotator : ExternalAnnotator<String, List<TextRange>>() 
             startIndex = endIndex
             textRanges.add(TextRange(index, endIndex))
 
-            index = getIndex(collectedInfo, startIndex)!!
+            index = getIndex(collectedInfo, startIndex)
         }
 
         return textRanges;
     }
 
-    private fun getIndex(collectedInfo: String?, startIndex: Int): Int? =
-            collectedInfo?.indexOf(HIGHLIGHT_TEXT, startIndex, ignoreCase = true)
+    private fun getIndex(collectedInfo: String, startIndex: Int): Int =
+            collectedInfo.indexOf(HIGHLIGHT_TEXT, startIndex, ignoreCase = true)
 
     override fun apply(file: PsiFile, annotationResult: List<TextRange>?, holder: AnnotationHolder) {
         if (annotationResult.isNullOrEmpty()) {
             return
         }
 
-        for (range in annotationResult) {
-            annotate(holder, range)
+        annotationResult.forEach {
+            annotate(holder, it)
         }
     }
 

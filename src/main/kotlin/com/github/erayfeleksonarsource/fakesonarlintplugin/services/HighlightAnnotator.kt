@@ -7,7 +7,6 @@ import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey
 import com.intellij.openapi.editor.markup.EffectType
 import com.intellij.openapi.editor.markup.TextAttributes
-import com.intellij.openapi.util.NlsSafe
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.JavaTokenType.IDENTIFIER
 import com.intellij.psi.JavaTokenType.STRING_LITERAL
@@ -21,10 +20,7 @@ import java.awt.Font
 
 class HighlightAnnotator : Annotator {
     override fun annotate(@NotNull element: PsiElement, @NotNull holder: AnnotationHolder) {
-        val elementType = element.elementType;
-        val value = element.text;
-
-        if (validate(elementType, value)) return
+        if (validate(element.elementType)) return
 
         val indexes = fetchSubStringIndexes(element.text.lowercase())
 
@@ -32,18 +28,10 @@ class HighlightAnnotator : Annotator {
             val prefixRange = TextRange.from(element.textRange.startOffset + i, HIGHLIGHT_TEXT.length)
             highlight(holder, prefixRange)
         }
-
     }
 
-    private fun validate(elementType: IElementType?, value: @NlsSafe String): Boolean {
-        if ((elementType?.equals(STRING_LITERAL) == false) && elementType != IDENTIFIER) {
-            return true
-        }
-
-        if (!value.toString().lowercase().contains(HIGHLIGHT_TEXT)) {
-            return true
-        }
-        return false
+    private fun validate(elementType: IElementType?): Boolean {
+        return (elementType?.equals(STRING_LITERAL) == false) && elementType != IDENTIFIER
     }
 
     private fun fetchSubStringIndexes(originalString: String): MutableList<Int> {
@@ -51,6 +39,10 @@ class HighlightAnnotator : Annotator {
 
         var index = originalString.indexOf(HIGHLIGHT_TEXT)
         val subStringLength = HIGHLIGHT_TEXT.length
+
+        if(index == -1){
+            return indexes
+        }
 
         indexes.add(index)
 
