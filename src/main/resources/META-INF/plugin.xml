@@ -4,6 +4,14 @@
     <name>FakeSonarlintPlugin</name>
     <vendor>eray-felek-sonarsource</vendor>
 
+    <name>SDK: Tool Window Sample</name>
+    
+
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow id="Highlight Counter" secondary="true" icon="AllIcons.Toolwindows.WebToolWindow" anchor="right"
+                    factoryClass="com.github.erayfeleksonarsource.fakesonarlintplugin.services.HighlightToolWindowFactory"/>
+    </extensions>
+
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.java</depends>
 

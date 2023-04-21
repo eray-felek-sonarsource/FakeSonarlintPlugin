@@ -1,5 +1,6 @@
 package com.github.erayfeleksonarsource.fakesonarlintplugin.services
 
+import com.github.erayfeleksonarsource.fakesonarlintplugin.listeners.HIGHLIGHT_TOPIC
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.ExternalAnnotator
@@ -21,7 +22,7 @@ class HighlightExternalAnnotator : ExternalAnnotator<String, List<TextRange>>() 
     }
 
     override fun doAnnotate(collectedInfo: String?): List<TextRange> {
-        if(collectedInfo.isNullOrEmpty()) return emptyList()
+        if (collectedInfo.isNullOrEmpty()) return emptyList()
 
         var startIndex = 0
         val textRanges = mutableListOf<TextRange>()
@@ -44,12 +45,16 @@ class HighlightExternalAnnotator : ExternalAnnotator<String, List<TextRange>>() 
             collectedInfo.indexOf(HIGHLIGHT_TEXT, startIndex, ignoreCase = true)
 
     override fun apply(file: PsiFile, annotationResult: List<TextRange>?, holder: AnnotationHolder) {
-        if (annotationResult.isNullOrEmpty()) {
-            return
-        }
+        val count = if (annotationResult.isNullOrEmpty()) 0 else annotationResult.size
 
-        annotationResult.forEach {
-            annotate(holder, it)
+        file.project.messageBus.syncPublisher(HIGHLIGHT_TOPIC).notifyCount(count)
+
+        if (count == 0) {
+            return
+        } else {
+            annotationResult!!.forEach {
+                annotate(holder, it)
+            }
         }
     }
 
