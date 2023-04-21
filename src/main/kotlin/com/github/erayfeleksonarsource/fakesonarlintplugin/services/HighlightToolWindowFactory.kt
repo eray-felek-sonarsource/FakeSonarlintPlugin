@@ -1,7 +1,7 @@
 package com.github.erayfeleksonarsource.fakesonarlintplugin.services
 
+import com.github.erayfeleksonarsource.fakesonarlintplugin.listeners.HIGHLIGHT_TOPIC
 import com.github.erayfeleksonarsource.fakesonarlintplugin.listeners.HighlightListener
-import com.github.erayfeleksonarsource.fakesonarlintplugin.listeners.HighlightListener.Companion.HIGHLIGHT_TOPIC
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
@@ -25,7 +25,7 @@ class HighlightToolWindowFactory : ToolWindowFactory, DumbAware {
         toolWindow.contentManager.addContent(content)
     }
 
-    private class HighlightToolWindowContent(project: Project) : HighlightListener.Companion.HighlightNotifier {
+    private class HighlightToolWindowContent(project: Project) : HighlightListener {
         val contentPanel = JPanel()
         private val highlightCount = JLabel()
 

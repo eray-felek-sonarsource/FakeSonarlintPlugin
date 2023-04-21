@@ -1,6 +1,6 @@
 package com.github.erayfeleksonarsource.fakesonarlintplugin.services
 
-import com.github.erayfeleksonarsource.fakesonarlintplugin.listeners.HighlightListener.Companion.HIGHLIGHT_TOPIC
+import com.github.erayfeleksonarsource.fakesonarlintplugin.listeners.HIGHLIGHT_TOPIC
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.ExternalAnnotator
