@@ -10,18 +10,34 @@ import com.intellij.testFramework.TestDataPath
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
 import com.intellij.util.PsiErrorElementUtil
 import com.github.erayfeleksonarsource.fakesonarlintplugin.services.MyProjectService
+import com.intellij.util.FileContentUtilCore.reparseFiles
 import com.intellij.util.messages.MessageBusConnection
 import com.intellij.util.messages.Topic
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.Assert
 
 @TestDataPath("\$CONTENT_ROOT/src/test/testData")
-class MyPluginTest : BasePlatformTestCase(), HighlightListener {
+class MyPluginTest : BasePlatformTestCase() {
     fun testMessageBus() {
-        val connection = project.messageBus.connect()
-        connection.subscribe(HIGHLIGHT_TOPIC, this)
+        val listener = HighlightListenerAccumulator()
 
-        myFixture.configureByFile("Asonar.java")
-        myFixture.checkHighlighting()
+        val connection = project.messageBus.connect()
+        connection.subscribe(HIGHLIGHT_TOPIC, listener)
+
+        var psiFile = myFixture.configureByText("Sample.java", """public class Sample { int eray1 = 1;
+            |int eray12 = 12;}""".trimMargin())
+
+        myFixture.doHighlighting()
+
+        assertThat(listener.receivedCount).containsExactly(2)
+
+        var psiFile2 = myFixture.configureByText("Sample2.java", """public class Sample2 { int eray1 = 1;
+            |int eray12 = 12;
+            |int eray123 = 123;}""".trimMargin())
+
+        myFixture.doHighlighting()
+
+        assertThat(listener.receivedCount).containsExactly(2,3)
     }
 
     fun testHighlighting() {
@@ -29,10 +45,5 @@ class MyPluginTest : BasePlatformTestCase(), HighlightListener {
 
         myFixture.checkHighlighting()
     }
-
-    override fun notifyCount(count: Int) {
-        Assert.assertEquals(3, count)
-    }
-
     override fun getTestDataPath() = "src/test/testData/MyPluginTest"
 }
