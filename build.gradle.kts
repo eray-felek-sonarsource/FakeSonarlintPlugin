@@ -4,6 +4,10 @@ import org.jetbrains.changelog.markdownToHTML
 fun properties(key: String) = providers.gradleProperty(key)
 fun environment(key: String) = providers.environmentVariable(key)
 
+val remoteRobotVersion = "0.11.18"
+val okhttpVersion = "okhttp:4.10.0"
+val okhttpLoggingVersion = "logging-interceptor:4.9.1"
+
 plugins {
     // Java support
     id("java")
@@ -25,10 +29,29 @@ version = properties("pluginVersion").get()
 // Configure project's dependencies
 repositories {
     mavenCentral()
+    maven("https://packages.jetbrains.team/maven/p/ij/intellij-dependencies")
 }
 
-dependencies{
+tasks.test {
+    useJUnitPlatform()
+}
+
+tasks.runIdeForUiTests {
+    systemProperty ("robot-server.port", "8082") // default port 8580
+}
+
+dependencies {
+    implementation("com.squareup.okhttp3:$okhttpVersion")
+    implementation("com.squareup.okhttp3:$okhttpLoggingVersion")
+    testImplementation("com.intellij.remoterobot:remote-robot:$remoteRobotVersion")
+    testImplementation("com.intellij.remoterobot:remote-fixtures:$remoteRobotVersion")
     testImplementation("org.assertj:assertj-core:3.11.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+}
+
+tasks.downloadRobotServerPlugin {
+    version.set(remoteRobotVersion)
 }
 
 // Set the JVM language level used to build the project. Use Java 11 for 2020.3+, and Java 17 for 2022.2+.
@@ -80,7 +103,7 @@ tasks {
             val start = "<!-- Plugin description -->"
             val end = "<!-- Plugin description end -->"
 
-            with (it.lines()) {
+            with(it.lines()) {
                 if (!containsAll(listOf(start, end))) {
                     throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
                 }
@@ -93,10 +116,10 @@ tasks {
         changeNotes.set(properties("pluginVersion").map { pluginVersion ->
             with(changelog) {
                 renderItem(
-                    (getOrNull(pluginVersion) ?: getUnreleased())
-                        .withHeader(false)
-                        .withEmptySections(false),
-                    Changelog.OutputType.HTML,
+                        (getOrNull(pluginVersion) ?: getUnreleased())
+                                .withHeader(false)
+                                .withEmptySections(false),
+                        Changelog.OutputType.HTML,
                 )
             }
         })

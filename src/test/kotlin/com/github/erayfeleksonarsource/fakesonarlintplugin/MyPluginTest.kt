@@ -1,23 +1,14 @@
 package com.github.erayfeleksonarsource.fakesonarlintplugin
 
 import com.github.erayfeleksonarsource.fakesonarlintplugin.listeners.HIGHLIGHT_TOPIC
-import com.github.erayfeleksonarsource.fakesonarlintplugin.listeners.HighlightListener
-import com.github.erayfeleksonarsource.fakesonarlintplugin.services.HighlightExternalAnnotator
-import com.intellij.ide.highlighter.XmlFileType
-import com.intellij.openapi.components.service
-import com.intellij.psi.xml.XmlFile
 import com.intellij.testFramework.TestDataPath
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
-import com.intellij.util.PsiErrorElementUtil
-import com.github.erayfeleksonarsource.fakesonarlintplugin.services.MyProjectService
-import com.intellij.util.FileContentUtilCore.reparseFiles
-import com.intellij.util.messages.MessageBusConnection
-import com.intellij.util.messages.Topic
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Assert
+import org.junit.jupiter.api.Test
 
 @TestDataPath("\$CONTENT_ROOT/src/test/testData")
 class MyPluginTest : BasePlatformTestCase() {
+    @Test
     fun testMessageBus() {
         val listener = HighlightListenerAccumulator()
 
@@ -37,13 +28,15 @@ class MyPluginTest : BasePlatformTestCase() {
 
         myFixture.doHighlighting()
 
-        assertThat(listener.receivedCount).containsExactly(2,3)
+        assertThat(listener.receivedCount).containsExactly(2, 3)
     }
 
+    @Test
     fun testHighlighting() {
         myFixture.configureByFile("Asonar.java")
 
         myFixture.checkHighlighting()
     }
+
     override fun getTestDataPath() = "src/test/testData/MyPluginTest"
 }
