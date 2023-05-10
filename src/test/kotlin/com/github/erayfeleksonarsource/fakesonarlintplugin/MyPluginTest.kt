@@ -24,16 +24,16 @@ class MyPluginTest : BasePlatformTestCase() {
         val connection = project.messageBus.connect()
         connection.subscribe(HIGHLIGHT_TOPIC, listener)
 
-        var psiFile = myFixture.configureByText("Sample.java", """public class Sample { int eray1 = 1;
-            |int eray12 = 12;}""".trimMargin())
+        var psiFile = myFixture.configureByText("Sample.java", """public class Sample { int heisenberg1 = 1;
+            |int heisenberg12 = 12;}""".trimMargin())
 
         myFixture.doHighlighting()
 
         assertThat(listener.receivedCount).containsExactly(2)
 
-        var psiFile2 = myFixture.configureByText("Sample2.java", """public class Sample2 { int eray1 = 1;
-            |int eray12 = 12;
-            |int eray123 = 123;}""".trimMargin())
+        var psiFile2 = myFixture.configureByText("Sample2.java", """public class Sample2 { int heisenberg1 = 1;
+            |int heisenberg12 = 12;
+            |int heisenberg123 = 123;}""".trimMargin())
 
         myFixture.doHighlighting()
 
