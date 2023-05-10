@@ -33,7 +33,7 @@
         <action
                 id="com.example.myframeworksupport.MyAction"
                 class="com.github.erayfeleksonarsource.fakesonarlintplugin.services.NotifyAction"
-                text="Do Action Hello World"
+                text="Say my name"
                 description="Do something with the code"
                 icon="AllIcons.Actions.GC">
             <add-to-group

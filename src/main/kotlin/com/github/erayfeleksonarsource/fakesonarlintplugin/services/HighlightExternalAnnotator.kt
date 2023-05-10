@@ -15,7 +15,7 @@ import java.awt.Font
 
 class HighlightExternalAnnotator : ExternalAnnotator<String, List<TextRange>>() {
 
-    val HIGHLIGHT_TEXT = "eray"
+    val HIGHLIGHT_TEXT = "heisenberg"
 
     override fun collectInformation(file: PsiFile): String? {
         return file.text
@@ -61,7 +61,7 @@ class HighlightExternalAnnotator : ExternalAnnotator<String, List<TextRange>>() 
     private fun annotate(holder: AnnotationHolder, range: TextRange) {
         holder.newAnnotation(HighlightSeverity.WEAK_WARNING, "Unresolved property")
                 .range(range)
-                .textAttributes(TextAttributesKey.createTextAttributesKey("ERAY_HIGHLIGHT", TextAttributes(JBColor.blue, JBColor.yellow, JBColor.blue, EffectType.LINE_UNDERSCORE,
+                .textAttributes(TextAttributesKey.createTextAttributesKey("HEISENBERG_HIGHLIGHT", TextAttributes(JBColor.blue, JBColor.CYAN, JBColor.blue, EffectType.LINE_UNDERSCORE,
                         Font.PLAIN)))
                 .highlightType(ProblemHighlightType.GENERIC_ERROR)
                 .create()
