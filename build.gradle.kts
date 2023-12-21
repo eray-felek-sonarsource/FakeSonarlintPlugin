@@ -10,7 +10,7 @@ val okhttpLoggingVersion = "logging-interceptor:4.9.1"
 
 plugins {
     // Java support
-    id("java")
+    id("org.gradle.java")
     // Kotlin support
     id("org.jetbrains.kotlin.jvm") version "1.8.10"
     // Gradle IntelliJ Plugin
@@ -42,8 +42,8 @@ tasks.runIdeForUiTests {
 
 dependencies {
     implementation("com.squareup.okhttp3:$okhttpVersion")
-    implementation("com.squareup.okhttp3:$okhttpLoggingVersion")
     testImplementation("com.intellij.remoterobot:remote-robot:$remoteRobotVersion")
+    implementation("com.squareup.okhttp3:$okhttpLoggingVersion")
     testImplementation("com.intellij.remoterobot:remote-fixtures:$remoteRobotVersion")
     testImplementation("org.assertj:assertj-core:3.11.1")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")

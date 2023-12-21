@@ -7,4 +7,6 @@ interface HighlightListener {
 
 }
 
+
+
 public val HIGHLIGHT_TOPIC = Topic.create("highlightTopic", HighlightListener::class.java)

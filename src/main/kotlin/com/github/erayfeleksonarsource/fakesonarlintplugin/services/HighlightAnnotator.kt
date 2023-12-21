@@ -15,6 +15,7 @@ import com.intellij.psi.tree.IElementType
 import com.intellij.psi.util.elementType
 import com.intellij.ui.JBColor
 import org.jetbrains.annotations.NotNull
+import java.awt.Color
 import java.awt.Font
 
 
@@ -58,9 +59,11 @@ class HighlightAnnotator : Annotator {
 
     private fun highlight(holder: AnnotationHolder, prefixRange: TextRange?) {
         if (prefixRange != null) {
+            var color = JBColor(Color.yellow, Color(10, 10, 0));
+
             holder.newAnnotation(HighlightSeverity.WEAK_WARNING, "Unresolved property")
                     .range(prefixRange)
-                    .textAttributes(createTextAttributesKey("SONAR_HIGHLIGHT", TextAttributes(JBColor.blue, JBColor.yellow, JBColor.blue, EffectType.LINE_UNDERSCORE,
+                    .textAttributes(createTextAttributesKey("SONAR_HIGHLIGHT", TextAttributes(null, color, null, EffectType.BOXED,
                             Font.PLAIN)))
                     .highlightType(ProblemHighlightType.GENERIC_ERROR)
                     .create()
